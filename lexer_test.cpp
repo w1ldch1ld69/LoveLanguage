@@ -8,4 +8,6 @@ int main() {
     std::string str2 = "*";
     std::string str3 = "<=aksjdl";
     std::cout << Service::Lexer::is_service_str(str3) << std::endl;
+    Service::Global::code = "askldjlwkllsa";
+    Lexer::test();
 }

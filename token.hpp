@@ -31,13 +31,26 @@ class Token {
 private:
 
     using TokenList = std::vector<Token*>;
-    using TokenTable = std::unordered_map<Service::Lexer::Strings, TokenType>;
+    using TokenTable = std::unordered_map<std::string, TokenType>;
 
-    // static TokenTable Token_table = {
-    //     {}
-    // };
+    inline static TokenTable token_table = {
+        {"+", TokenType::Plus}, {"-", TokenType::Minus}, {"*", TokenType::Star}, 
+        {"/", TokenType::Slash}, {"%", TokenType::Percent}, {"^", TokenType::Caret}, 
+        {"|", TokenType::Pipe}, {"&", TokenType::Amp}, {"~", TokenType::Tilda}, 
+        {"=", TokenType::Equal}, {"!=", TokenType::Nonequal}, {"<=", TokenType::LchevronEqual}, 
+        {">=", TokenType::RchevronEqual}, {"<", TokenType::Lchevron}, {">", TokenType::Rchevron}, 
+        {"(", TokenType::Lparen}, {")", TokenType::Rparen}, {"{", TokenType::Lbracket},
+        {"}", TokenType::Rbracket}, {":", TokenType::Colon}, {"\t", TokenType::Tab},
+        {"\n", TokenType::Newline}, {"", TokenType::Eof}
+    };
 
-    // static TokenList *tokens = new TokenList{};
+    inline static TokenList tokens{};
+
+    static TokenType get_type(std::string str) {
+        return token_table[str];
+    }
+
+    ////////////////////////////////////////////////////
 
     Token(TokenType token, int start, int end) : token{token} {
         token_data = Service::Global::code.substr(start, end);

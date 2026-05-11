@@ -6,13 +6,15 @@
 #include <string>
 #include <string_view>
 
+#include "token.hpp"
 #include "service.hpp"
 
 
 class Lexer {
 private:
     static void build_token(std::string str, std::size_t len, ssize_t& iter) {
-        // auto token = new Token(); 
+        Token *tmp = new Token{Token::get_type(str), 0, len};
+        Token::tokens.push_back(tmp);
         iter += len;
     }
 
@@ -32,12 +34,20 @@ public:
                 if (auto offset = Service::Lexer::is_service_str(&Service::Global::code[iter]); offset > 0) {
                     build_token(&Service::Global::code[iter], offset, iter);
                     continue;
+                } else {
+                    for (auto elem : Token::tokens) delete elem;
+                    std::cerr << "Invalid lexical construction: > " << Service::Global::code.substr(iter, iter + 16) << "..." << std::endl;
+                    exit(1);
                 }
             }
+
+            
         }
     }
 
-    static void test() {
-        // Token::tokens;
-    }
+    // static void test() {
+    //     Token *tmp = new Token{TokenType::Id, 0, 3};
+    //     Token::tokens.push_back(tmp);
+    //     std::cout << Token::tokens[0]->token_data << std::endl;
+    // }
 };
