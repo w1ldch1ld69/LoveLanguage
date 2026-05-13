@@ -78,8 +78,9 @@ namespace Service {
             if (auto iter = 0; str[iter] == '0') {
                 if (++iter, !(is_digit(str[iter]) || is_id_start(str[iter]))) return iter;
                 else if (str[iter] == '.') {
-                    do ++iter; while (is_digit(str[iter]));
-                    return (is_digit(str[iter - 1])) ? iter + 1 : iter;
+                    ++iter;
+                    while (is_digit(str[iter])) ++iter;
+                    return iter;
                 } 
                 return -iter;
             } 
@@ -91,7 +92,7 @@ namespace Service {
                 }
 
                 else if (!is_id_start(str[iter]))
-                    return (is_digit(str[iter - 1])) ? iter + 1 : iter;
+                    return iter;
                 
                 return -iter;
             }

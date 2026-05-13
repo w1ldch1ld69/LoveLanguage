@@ -54,15 +54,73 @@ private:
         if (auto type = token_table.find(str); type != token_table.end()) return type->second;
         if (str[0] >= '0' && str[0] <= '9') return TokenType::Number;
         if (Service::Lexer::is_id_start(str[0])) return TokenType::Id;
-        if (str[0] == '"' && str[str.length()] == '"') return TokenType::String;
+        if (str[0] == '"' && str.back() == '"') return TokenType::String;
         return std::nullopt;
     }
 
     ////////////////////////////////////////////////////
 
-    Token(TokenType token, int start, int end) : token{token} {
-        token_data = Service::Global::code.substr(start, end);
+    static void print_tokens() {
+        std::cout << "[\n";
+
+        for (const auto* tok : tokens) {
+            if (!tok) continue;
+
+            std::cout << "  Token(";
+
+            switch (tok->token) {
+                case TokenType::Plus:           std::cout << "Plus"; break;
+                case TokenType::Minus:          std::cout << "Minus"; break;
+                case TokenType::Star:           std::cout << "Star"; break;
+                case TokenType::Slash:          std::cout << "Slash"; break;
+                case TokenType::Percent:        std::cout << "Percent"; break;
+                case TokenType::Caret:          std::cout << "Caret"; break;
+
+                case TokenType::Pipe:           std::cout << "Pipe"; break;
+                case TokenType::Amp:            std::cout << "Amp"; break;
+                case TokenType::Tilda:          std::cout << "Tilda"; break;
+
+                case TokenType::Equal:          std::cout << "Equal"; break;
+                case TokenType::Nonequal:       std::cout << "Nonequal"; break;
+
+                case TokenType::LchevronEqual:  std::cout << "LchevronEqual"; break;
+                case TokenType::RchevronEqual:  std::cout << "RchevronEqual"; break;
+
+                case TokenType::Lchevron:       std::cout << "Lchevron"; break;
+                case TokenType::Rchevron:       std::cout << "Rchevron"; break;
+
+                case TokenType::Lparen:         std::cout << "Lparen"; break;
+                case TokenType::Rparen:         std::cout << "Rparen"; break;
+
+                case TokenType::Lbracket:       std::cout << "Lbracket"; break;
+                case TokenType::Rbracket:       std::cout << "Rbracket"; break;
+
+                case TokenType::Colon:          std::cout << "Colon"; break;
+                case TokenType::Comma:          std::cout << "Comma"; break;
+
+                case TokenType::Tab:            std::cout << "Tab"; break;
+                case TokenType::Newline:        std::cout << "Newline"; break;
+
+                case TokenType::Id:             std::cout << "Id"; break;
+                case TokenType::Number:         std::cout << "Number"; break;
+                case TokenType::String:         std::cout << "String"; break;
+
+                case TokenType::Eof:            std::cout << "Eof"; break;
+
+                default:
+                    std::cout << "Unknown";
+            }
+
+            if (tok->token != TokenType::Newline && tok->token != TokenType::Eof) std::cout << ", \"" << tok->token_data << "\")\n";
+            else std::cout << ")\n";
+        }
+
+        std::cout << "]\n";
     }
+
+    ////////////////////////////////////////////////////
+
+    Token(TokenType token, ssize_t start, ssize_t len) : token{token}, token_data{&Service::Global::code[start], len} {}
 
     TokenType token;
     std::string_view token_data;
