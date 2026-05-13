@@ -5,6 +5,6 @@ Already done:
 Not so much, but work's in progress
 
 TODO:
-- Finish lexer and continue to work on other parts of compiler
+- Parser and future
 - Sort by directories
 - Cmake
