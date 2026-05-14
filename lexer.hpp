@@ -1,13 +1,12 @@
 #pragma once
 
 #include <iostream>
-#include <array>
 #include <vector>
 #include <string>
-#include <string_view>
 
 #include "token.hpp"
 #include "service.hpp"
+
 
 
 class Lexer {
@@ -101,9 +100,4 @@ public:
         Token::print_tokens();
     }
 
-    // static void test() {
-    //     Token *tmp = new Token{TokenType::Id, 0, 3};
-    //     Token::tokens.push_back(tmp);
-    //     std::cout << Token::tokens[0]->token_data << std::endl;
-    // }
 };

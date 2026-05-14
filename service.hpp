@@ -102,5 +102,9 @@ namespace Service {
 
     };
 
+    namespace Parser {
+        
+    };
+
 };
 
