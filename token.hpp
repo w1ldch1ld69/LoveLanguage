@@ -19,9 +19,9 @@ enum class TokenType {
 
     Lbracket, Rbracket,
 
-    Colon,
+    DoubleColon, Colon,
 
-    Comma, 
+    Comma,
 
     Tab, Newline,
     
@@ -46,8 +46,9 @@ private:
         {"=", TokenType::Equal}, {"!=", TokenType::Nonequal}, {"<=", TokenType::LchevronEqual}, 
         {">=", TokenType::RchevronEqual}, {"<", TokenType::Lchevron}, {">", TokenType::Rchevron}, 
         {"(", TokenType::Lparen}, {")", TokenType::Rparen}, {"{", TokenType::Lbracket},
-        {"}", TokenType::Rbracket}, {":", TokenType::Colon}, {",", TokenType::Comma},
-        {"\t", TokenType::Tab}, {"\n", TokenType::Newline}, {"", TokenType::Eof}
+        {"}", TokenType::Rbracket}, {"::", TokenType::DoubleColon}, {":", TokenType::Colon}, 
+        {",", TokenType::Comma}, {"\t", TokenType::Tab}, {"\n", TokenType::Newline}, 
+        {"", TokenType::Eof}
     };
 
     inline static TokenList tokens{};
@@ -97,6 +98,7 @@ private:
                 case TokenType::Lbracket:       std::cout << "Lbracket"; break;
                 case TokenType::Rbracket:       std::cout << "Rbracket"; break;
 
+                case TokenType::DoubleColon:    std::cout << "DoubleColon"; break;
                 case TokenType::Colon:          std::cout << "Colon"; break;
                 case TokenType::Comma:          std::cout << "Comma"; break;
 
@@ -130,5 +132,7 @@ private:
     ////////////////////////////////////////////////////
 
     friend class Lexer;
+
+    friend class Parser;
 
 };
