@@ -11,7 +11,7 @@
 
 class Lexer {
 private:
-    static void build_token(std::string str, ssize_t& iter, std::size_t len) {
+    static void build_token(std::string str, std::size_t& iter, std::size_t len) {
         if (len == 0) {
             Token *tmp = new Token{TokenType::Eof, iter -1, len};
             Token::tokens.push_back(tmp);
@@ -33,8 +33,8 @@ private:
 public:
     static void lex() {
         
-        ssize_t iter = 0;
-        const ssize_t end = Service::Global::code.length();
+        std::size_t iter = 0;
+        const std::size_t end = Service::Global::code.length();
         while (iter != end) {
             if (!Service::Lexer::is_newline) {
                 while (Service::Global::code[iter] == ' ' || Service::Global::code[iter] == '\t') ++iter;
