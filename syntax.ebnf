@@ -2,17 +2,15 @@
     Extended Backus-Naur Form for LoveLanguage (LoL)
 *)
 
-program             = {space_decl}, global_space_decl, {space_decl};
-global_space_decl   = kw_space, gloabl_space_id, ':', '\n', decl_list;
-decl_list           = '\t', decl, {'\t', decl};
-decl                = var_decl | fun_decl | class_decl | space_decl;
-
+program             = space_decl, {space_decl};
 var_decl    = kw_var, id, ['=', init] '\n';
 fun_decl    = kw_fun, id, '(', param_list, ')', ':', '\n', body;
 param_list  = "" | id, {',', id};
 body        = stmt_list;
 class_decl  = kw_class, id, ':', '\n', decl_list;
 space_decl  = kw_space, id, ':', '\n', decl_list;
+decl_list           = '\t', decl, {'\t', decl};
+decl                = var_decl | fun_decl | class_decl | space_decl;
 
 stmt_list   = '\t', stmt, {'\t', stmt};
 stmt        = cond_stmt | while_stmt | jump_stmt | expr_stmt | decl_stmt;
@@ -28,7 +26,7 @@ break_stmt  = kw_break, '\n';
 cont_stmt   = kw_continue, '\n';
 
 decl_stmt   = block_decl;
-block_decl  = var_decl | space_decl;
+block_decl  = var_decl | class_decl;
 
 expr_stmt       = kw_pass, '\n' | expr, '\n';
 expr            = assign_expr;
@@ -43,12 +41,10 @@ relop_expr	    = add_expr, ['<' | '>' | "<=" | ">=", relop_expr];
 add_expr	    = mult_expr, ['+' | '-', add_expr];
 mult_expr	    = prefix_expr, ['*' | '/' | '%', mult_expr];
 prefix_expr     = kw_not, prefix_expr | '~', prefix_expr | postfix_expr;
-postfix_expr    = call_expr | index_expr | access_expr;
-call_expr       = postfix_expr, '(', arg_list, ')';
-arg_list        = "" | postfix_expr [',', arg_list];
-access_expr     = postfix_expr, '.' | "::", id;
-primary_expr    = literals_expr, id_expr, group_expr;
-literals_expr   = number, string, bool;
+postfix_expr    = primary_expr, {'(' arg_list ')' | '[' expr ']' | ('.' | "::") id};
+arg_list        = [expr, {',', expr}];
+primary_expr    = literals_expr | id_expr | group_expr;
+literals_expr   = number | string | bool | none;
 id_expr         = id;
 group_expr      = '(', expr, ')';
 number          = integer | float;
