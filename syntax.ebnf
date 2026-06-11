@@ -2,15 +2,15 @@
     Extended Backus-Naur Form for LoveLanguage (LoL)
 *)
 
-program             = space_decl, {space_decl};
+program     = space_decl, {space_decl};
 var_decl    = kw_var, id, ['=', init] '\n';
 fun_decl    = kw_fun, id, '(', param_list, ')', ':', '\n', body;
 param_list  = "" | id, {',', id};
 body        = stmt_list;
 class_decl  = kw_class, id, ':', '\n', decl_list;
 space_decl  = kw_space, id, ':', '\n', decl_list;
-decl_list           = '\t', decl, {'\t', decl};
-decl                = var_decl | fun_decl | class_decl | space_decl;
+decl_list   = '\t', decl, {'\t', decl};
+decl        = var_decl | fun_decl | class_decl | space_decl;
 
 stmt_list   = '\t', stmt, {'\t', stmt};
 stmt        = cond_stmt | while_stmt | jump_stmt | expr_stmt | decl_stmt;

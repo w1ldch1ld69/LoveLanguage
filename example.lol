@@ -2,18 +2,17 @@ space global:
 
     var x = 1
 
-    var a = true
-
-    var y = -x
-
-    var z = x + y
-
     class A:
-        var x = 63
+        var x
+
+        fun get():
+            ret x
+
 
     fun main():
         
+        var a = new A(69)
+
+        print(a.get())
 
         ret 0
-
-end global

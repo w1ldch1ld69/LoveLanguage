@@ -24,7 +24,7 @@ enum class TokenType {
 
     DoubleColon, Colon,
 
-    Comma,
+    Dot, Comma,
 
     Tab, Newline,
     
@@ -50,8 +50,8 @@ private:
         {"<=", TokenType::LchevronEqual}, {">=", TokenType::RchevronEqual}, {"<", TokenType::Lchevron}, 
         {">", TokenType::Rchevron}, {"(", TokenType::Lparen}, {")", TokenType::Rparen}, 
         {"{", TokenType::Lbracket}, {"}", TokenType::Rbracket}, {"::", TokenType::DoubleColon}, 
-        {":", TokenType::Colon}, {",", TokenType::Comma}, {"\t", TokenType::Tab}, 
-        {"\n", TokenType::Newline}, {"", TokenType::Eof}
+        {":", TokenType::Colon}, {".", TokenType::Dot}, {",", TokenType::Comma}, 
+        {"\t", TokenType::Tab}, {"\n", TokenType::Newline}, {"", TokenType::Eof}
     };
 
     inline static TokenList tokens{};
@@ -103,6 +103,7 @@ private:
 
                 case TokenType::DoubleColon:    std::cout << "DoubleColon"; break;
                 case TokenType::Colon:          std::cout << "Colon"; break;
+                case TokenType::Dot:          std::cout << "Dot"; break;
                 case TokenType::Comma:          std::cout << "Comma"; break;
 
                 case TokenType::Tab:            std::cout << "Tab"; break;
@@ -127,15 +128,18 @@ private:
 
     ////////////////////////////////////////////////////
 
-    Token(TokenType token, ssize_t start, ssize_t len) : token{token}, token_data{&Service::Global::code[start], len} {}
-
     TokenType token;
     std::string_view token_data;
 
     ////////////////////////////////////////////////////
 
+    friend class std::unique_ptr<Token>;
     friend class Lexer;
 
     friend class Parser;
+
+public:
+
+    Token(TokenType token, std::size_t start, std::size_t len) : token{token}, token_data{&Service::Global::code[start], len} {}
 
 };
